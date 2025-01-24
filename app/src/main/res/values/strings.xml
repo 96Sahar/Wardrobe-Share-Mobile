@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Wardrobe_Share</string>
+    <string name="already_have_an_account"><u>Already have an account?</u></string>
 </resources>
