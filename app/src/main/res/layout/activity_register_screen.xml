@@ -5,11 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D9DFC6"
+    android:background="@color/background"
     tools:context=".RegisterScreenActivity">
 
     <TextView
-        android:id="@+id/registerHeader"
+        android:id="@+id/WelcomeBackHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -52,9 +52,9 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/first_name_input"
         app:layout_constraintEnd_toStartOf="@+id/last_name_textview"
-        app:layout_constraintHorizontal_bias="0.337"
+        app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeBackHeader" />
 
     <TextView
         android:id="@+id/last_name_textview"
@@ -64,7 +64,7 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/first_name_textview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.689"
+        app:layout_constraintHorizontal_bias="0.688"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/first_name_textview"
         app:layout_constraintVertical_bias="0.0" />
@@ -83,7 +83,7 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/last_name_input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.193"
+        app:layout_constraintHorizontal_bias="0.227"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/first_name_textview" />
 
@@ -103,7 +103,7 @@
 
         app:layout_constraintBottom_toTopOf="@+id/email_input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toEndOf="@+id/first_name_input"
         app:layout_constraintTop_toBottomOf="@+id/last_name_textview"
         app:layout_constraintVertical_bias="0.0" />
@@ -163,10 +163,10 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.686" />
 
     <EditText
         android:id="@+id/confirm_password_input"
@@ -193,10 +193,10 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintHorizontal_bias="0.177"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.561" />
+        app:layout_constraintVertical_bias="0.556" />
 
     <Button
         android:id="@+id/button6"
@@ -211,7 +211,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/logo_header"
-        app:layout_constraintVertical_bias="0.87" />
+        app:layout_constraintVertical_bias="0.891" />
 
     <Button
         android:id="@+id/already_have_account"
