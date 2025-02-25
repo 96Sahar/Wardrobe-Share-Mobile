@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment"
+    android:id="@+id/nav_graph">
+    <fragment
+        android:id="@+id/createCocktailFragment"
+        android:name="com.example.mixmaster.CreateCocktailFragment"
+        android:label="CreateCocktailFragment" >
+        <action
+            android:id="@+id/action_createCocktailFragment_to_aiCreateFragment"
+            app:destination="@id/aiCreateFragment" />
+        <action
+            android:id="@+id/action_createCocktailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.mixmaster.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.mixmaster.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" >
+
+        <argument
+            android:name="userId"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.mixmaster.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/cocktailsFragment"
+        android:name="com.example.mixmaster.CocktailsFragment"
+        android:label="fragment_cocktails"
+        tools:layout="@layout/fragment_cocktails" >
+        <action
+            android:id="@+id/action_cocktailsFragment_to_cocktailDisplayFragment"
+            app:destination="@id/cocktailDisplayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aiCreateFragment"
+        android:name="com.example.mixmaster.AiCreateFragment"
+        android:label="fragment_ai_create"
+        tools:layout="@layout/fragment_ai_create" />
+    <fragment
+        android:id="@+id/cocktailDisplayFragment"
+        android:name="com.example.mixmaster.CocktailDisplayFragment"
+        android:label="fragment_cocktail_display"
+        tools:layout="@layout/fragment_cocktail_display" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.mixmaster.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

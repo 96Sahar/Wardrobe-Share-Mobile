@@ -1,4 +1,36 @@
 <resources>
-    <string name="app_name">Wardrobe_Share</string>
-    <string name="already_have_an_account"><u>Already have an account?</u></string>
+    <string name="app_name">Mix Master</string>
+    <string name="welcome_subtitle">Craft cocktails with a community of enthusiasts.</string>
+    <string name="image_description">Cocktail illustrations</string>
+    <string name="get_started">Get started</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Log in</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="or">or</string>
+    <string name="google">Google</string>
+    <string name="join"><u>New here? Join now</u></string>
+    <string name="name">Name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="create_account">Create an account</string>
+    <string name="already_account">Already have an account? Log in</string>
+    <string name="cocktail">Cocktail</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="cocktails">Cocktails</string>
+    <string name="search">Search</string>
+    <string name="add">Add</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_choose_profile_pic">Choose profile picture</string>
+
 </resources>
