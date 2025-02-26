@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313046148478",
+    "project_id": "wardrobe-share-mobile-8759e",
+    "storage_bucket": "wardrobe-share-mobile-8759e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313046148478:android:2ed217301c783b527f7f2f",
+        "android_client_info": {
+          "package_name": "com.example.wardrobe_share"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAObP0TyOnN3SMSwPMVBvVXA_3EPhraOtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
