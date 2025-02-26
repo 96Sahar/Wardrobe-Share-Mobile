@@ -22,9 +22,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back!"
-        android:textSize="24sp"
-        android:textColor="#000000"
+        android:text="@string/welcome_back"
+        android:textSize="30sp"
+        android:textColor="@color/black"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"/>
 
@@ -32,8 +32,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
-        android:textColor="#000000"
+        android:text="@string/email"
+        android:textColor="@color/black"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="8dp"/>
 
@@ -42,9 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/input_background"
-        android:hint="Enter your email address"
+        android:hint="@string/enter_your_email_address"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="@color/black"
         android:inputType="textEmailAddress"
         android:textColorHint="#80000000"/>
 
@@ -52,8 +53,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password"
-        android:textColor="#000000"
+        android:text="@string/password"
+        android:textColor="@color/black"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"/>
 
@@ -62,9 +63,10 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/input_background"
-        android:hint="Enter your password"
+        android:hint="@string/enter_your_password"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="@color/black"
         android:inputType="textPassword"
         android:textColorHint="#80000000"/>
 
@@ -73,19 +75,20 @@
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Login"
-        android:textColor="#000000"
+        android:text="@string/login"
+        android:textColor="@color/black"
         android:background="@drawable/button_background"
         android:layout_marginTop="32dp"/>
 
     <!-- Sign Up Text -->
     <TextView
+        android:id="@+id/SignUpHere"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:text="@string/join"
-        android:textSize="16dp"
-        android:textColor="#000000" />
+        android:textSize="16sp"
+        android:textColor="@color/black" />
 
 </LinearLayout>
