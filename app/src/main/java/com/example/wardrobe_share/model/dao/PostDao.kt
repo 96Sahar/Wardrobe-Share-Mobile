@@ -9,14 +9,22 @@ import com.example.wardrobe_share.model.Post
 
 @Dao
 interface PostDao {
-    @Query("SELECT * FROM post")
-    fun getAll(): List<Post>
-    @Query("SELECT * FROM post WHERE id = :id")
+
+    @Query("SELECT * FROM Post")
+    fun getAllPosts(): List<Post>
+
+    @Query("SELECT * FROM Post WHERE id =:id")
     fun getPostById(id: String): Post
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPost(vararg posts: Post)
-    @Delete
-    fun delete(post: Post)
+    @Query("SELECT * FROM Post WHERE author =:author")
+    fun getPostsByAuthor(author: String): List<Post>
 
+    @Query("SELECT * FROM Post LIMIT 4")
+    fun getLastFourPosts(): List<Post>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPosts(vararg posts: Post)
+
+    @Delete
+    fun deletePost(post: Post)
 }

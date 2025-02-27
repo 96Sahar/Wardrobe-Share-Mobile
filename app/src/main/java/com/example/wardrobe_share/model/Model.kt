@@ -1,58 +1,319 @@
 package com.example.wardrobe_share.model
 
+import android.graphics.Bitmap
 import android.os.Looper
-import androidx.core.os.HandlerCompat
+import android.util.Log
+import com.example.wardrobe_share.base.EmptyCallback
+import com.example.wardrobe_share.base.PostsCallback
 import com.example.wardrobe_share.model.dao.AppLocalDb
 import com.example.wardrobe_share.model.dao.AppLocalDbRepository
+import com.google.firebase.auth.FirebaseUser
+import android.os.Handler  // Use Android's Handler, not java.util.logging.Handler
+import com.example.wardrobe_share.model.FirebaseModel
+import com.example.wardrobe_share.base.UsersCallback
 import java.util.concurrent.Executors
 
-interface GetAllUsersListener{
-    fun onGetAllStudents(users: List<User>)
+class Model private constructor() {
 
-}
+    private val firebaseModel = FirebaseModel()
+    private val cloudinaryModel = CloudinaryModel()
+    private val database: AppLocalDbRepository = AppLocalDb.database
+    private var roomExecutor = Executors.newSingleThreadExecutor()
+    private val mainHandler = Handler(Looper.getMainLooper())
 
-
-class Model private constructor()
-{
-    val users : MutableList<User> = ArrayList()
-    val posts : MutableList<Post> = ArrayList()
-    private val database: AppLocalDbRepository = AppLocalDb.database;
-    private val executor = Executors.newSingleThreadExecutor()
-    private val handler = HandlerCompat.createAsync(Looper.getMainLooper())
-
-    companion object{
+    companion object {
         val shared = Model()
     }
 
-    fun getAllUsers(listener: GetAllUsersListener): List<User> {
-        executor.execute {
-            val users = database.userDao().getAll()
-            handler.post {
-                listener.onGetAllStudents(users)
+    fun getAllPosts(callback: PostsCallback) {
+        firebaseModel.getAllPosts { posts ->
+            Log.d("TAG", "Getting posts from Firebase: $posts")
+            if (posts.isNotEmpty()) {
+                // Count how many posts have a non-empty author field.
+                val postsToFetch = posts.count { it.author.isNotEmpty() }
+                if (postsToFetch == 0) {
+                    // No posts need author info – store and return immediately.
+                    roomExecutor.execute {
+                        database.postDao().insertPosts(*posts.toTypedArray())
+                    }
+                    mainHandler.post {
+                        callback(posts)
+                    }
+                } else {
+                    // Create a mutable copy to update each post with user info.
+                    val updatedPosts = posts.toMutableList()
+                    // Use an atomic counter to track the number of pending user fetches.
+                    val counter = java.util.concurrent.atomic.AtomicInteger(postsToFetch)
+                    for ((index, post) in updatedPosts.withIndex()) {
+                        if (post.author.isNotEmpty() && post.author != null) {
+                            Log.d("TAG", "Fetching user for post: ${post.id}")
+                            // For each post with a valid author, fetch the user.
+                            getUser(post.author) { user ->
+                                // When user data is fetched, update the post.
+                                updatedPosts[index] = post.copy(
+                                    authorName = user?.username ?: "",
+                                    authorImage = user?.image ?: ""
+                                )
+                                // When all user fetches are done, update the local DB and callback.
+                                if (counter.decrementAndGet() == 0) {
+                                    roomExecutor.execute {
+                                        database.postDao().insertPosts(*updatedPosts.toTypedArray())
+                                    }
+                                    mainHandler.post {
+                                        callback(updatedPosts)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                Log.d("TAG", "Getting posts from local database")
+                roomExecutor.execute {
+                    val localPosts = database.postDao().getAllPosts()
+                    mainHandler.post {
+                        callback(localPosts)
+                    }
+                }
             }
         }
-        return TODO("Provide the return value")
     }
 
-    fun getUserById(id: String): User {
-        return database.userDao().getUserById(id)
-    }
-    fun deleteUser(user: User) {
-        database.userDao().delete(user)
-    }
-    fun insertUser(user: User) {
-        database.userDao().insertUser(user)
+    fun getLastFourPosts(callback: PostsCallback) {
+        firebaseModel.getLastFourPosts { posts ->
+            Log.d("TAG", "Getting last four posts from Firebase: $posts")
+            if (posts.isNotEmpty()) {
+                // Count posts that have a non-empty author field.
+                val postsToFetch = posts.count { it.author.isNotEmpty() }
+                if (postsToFetch == 0) {
+                    // No posts require author data – cache them locally and callback.
+                    roomExecutor.execute {
+                        database.postDao().insertPosts(*posts.toTypedArray())
+                    }
+                    mainHandler.post {
+                        callback(posts)
+                    }
+                } else {
+                    // Create a mutable copy to update posts with user info.
+                    val updatedPosts = posts.toMutableList()
+                    // Use an atomic counter to track pending user fetches.
+                    val counter = java.util.concurrent.atomic.AtomicInteger(postsToFetch)
+                    for ((index, post) in updatedPosts.withIndex()) {
+                        if (post.author.isNotEmpty()) {
+                            getUser(post.author) { user ->
+                                updatedPosts[index] = post.copy(
+                                    authorName = user?.username ?: "",
+                                    authorImage = user?.image ?: ""
+                                )
+                                // When all user fetches are complete, update local DB and trigger the callback.
+                                if (counter.decrementAndGet() == 0) {
+                                    roomExecutor.execute {
+                                        database.postDao().insertPosts(*updatedPosts.toTypedArray())
+                                    }
+                                    mainHandler.post {
+                                        callback(updatedPosts)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                Log.d("TAG", "Getting last four posts from local database")
+                roomExecutor.execute {
+                    // It is assumed that your local DB provides a method to retrieve the last four posts.
+                    // If not, you might fetch all posts and then filter/sort to get the last four.
+                    val localPosts = database.postDao().getLastFourPosts()
+                    mainHandler.post {
+                        callback(localPosts)
+                    }
+                }
+            }
+        }
     }
 
-    fun getAllPosts(): List<Post> {
-        return database.postDao().getAll()
+    fun addPost(post: Post, profileImage: Bitmap?, callback: EmptyCallback) {
+        // Attempt to add the post to Firebase first.
+        firebaseModel.addPost(post) { firebaseSuccess ->
+            if (!firebaseSuccess) {
+                Log.d("TAG", "Firebase add failed")
+                mainHandler.post { callback() }
+                return@addPost
+            }
+
+            Log.d("TAG", "Firebase add succeeded")
+            roomExecutor.execute {
+                database.postDao().insertPosts(post)
+            }
+
+            // If a profile image is provided, upload it and update the post.
+            if (profileImage != null) {
+                uploadImageToCloudinary(
+                    image = profileImage,
+                    username = post.id,
+                    onSuccess = { url ->
+                        val updatedPost = post.copy(image = url)
+                        firebaseModel.addPost(updatedPost) { updateSuccess ->
+                            if (updateSuccess) {
+                                roomExecutor.execute {
+                                    database.postDao().insertPosts(updatedPost)
+                                }
+                            }
+                            mainHandler.post { callback() }
+                        }
+                    },
+                    onError = {
+                        mainHandler.post { callback() }
+                    }
+                )
+            } else {
+                mainHandler.post { callback() }
+            }
+        }
     }
-    fun getPostById(id: String): Post {
-        return database.postDao().getPostById(id)
+
+    fun getAllUserPosts(id: String, callback: PostsCallback) {
+        firebaseModel.getAllUserPosts(id) { posts ->
+            Log.d("TAG", "Getting user posts from Firebase: $posts")
+            if (posts.isNotEmpty()) {
+                // Fetch the user details once, since all posts share the same author.
+                getUser(id) { user ->
+                    val updatedPosts = posts.map { post ->
+                        post.copy(
+                            authorName = user?.username ?: "",
+                            authorImage = user?.image ?: ""
+                        )
+                    }
+                    // Cache updated posts locally.
+                    roomExecutor.execute {
+                        database.postDao().insertPosts(*updatedPosts.toTypedArray())
+                    }
+                    mainHandler.post {
+                        callback(updatedPosts)
+                    }
+                }
+            } else {
+                Log.d("TAG", "Getting user posts from local database")
+                roomExecutor.execute {
+                    val localPosts = database.postDao().getPostsByAuthor(id)
+                    mainHandler.post {
+                        callback(localPosts)
+                    }
+                }
+            }
+        }
     }
-    fun deletePost(post: Post) {
-        database.postDao().delete(post)
+
+    fun getUser(id: String, callback: (User) -> Unit) {
+        firebaseModel.getUser(id) { user ->
+            if (user != null) {
+                roomExecutor.execute {
+                    database.userDao().insertUsers(user)
+                }
+                mainHandler.post { callback(user) }
+            } else {
+                roomExecutor.execute {
+                    val localUser = database.userDao().getUserById(id)
+                        ?: User(id, "Deleted User", "") // Fallback for deleted user.
+                    mainHandler.post { callback(localUser) }
+                }
+            }
+        }
+    }
+
+    fun signIn(email: String, password: String, callback: (FirebaseUser?, String?) -> Unit) {
+        firebaseModel.signIn(email, password, callback)
     }
 
 
+    fun signUp(email: String, password: String, username: String, bitmap: Bitmap?, callback: (FirebaseUser?, String?) -> Unit) {
+        Log.d("TAG", "Model sign up")
+        firebaseModel.signUp(email, password) { firebaseUser, error ->
+            Log.d("TAG", "${error}")
+            if (firebaseUser != null) {
+                if (bitmap != null) {
+                    // Upload the image to Cloudinary instead of Firebase Storage.
+                    uploadImageToCloudinary(bitmap, firebaseUser.uid, onSuccess = { imageUrl ->
+                        Log.d("TAG", "Image uploaded to Cloudinary: $imageUrl")
+                        // Save user data to Firestore with the Cloudinary image URL.
+                        firebaseModel.saveUser(firebaseUser, username, imageUrl) { success, saveError ->
+                            if (success) {
+                                // Save the user locally.
+                                roomExecutor.execute {
+                                    database.userDao().insertUsers(User(firebaseUser.uid, username, imageUrl))
+                                }
+                                mainHandler.post { callback(firebaseUser, null) }
+                            } else {
+                                mainHandler.post { callback(null, saveError ?: "Error saving user to Firestore") }
+                            }
+                        }
+                    }, onError = { errMsg ->
+                        Log.e("TAG", "Image upload to Cloudinary failed: $errMsg")
+                        // If Cloudinary upload fails, save the user without an image.
+                        firebaseModel.saveUser(firebaseUser, username, "") { success, saveError ->
+                            if (success) {
+                                roomExecutor.execute {
+                                    database.userDao().insertUsers(User(firebaseUser.uid, username, ""))
+                                }
+                                mainHandler.post { callback(firebaseUser, null) }
+                            } else {
+                                mainHandler.post { callback(null, saveError ?: "Error saving user to Firestore") }
+                            }
+                        }
+                    })
+                } else {
+                    // No image provided; save user with an empty image field.
+                    firebaseModel.saveUser(firebaseUser, username, "") { success, saveError ->
+                        if (success) {
+                            roomExecutor.execute {
+                                database.userDao().insertUsers(User(firebaseUser.uid, username, ""))
+                            }
+                            mainHandler.post { callback(firebaseUser, null) }
+                        } else {
+                            mainHandler.post { callback(null, saveError ?: "Error saving user to Firestore") }
+                        }
+                    }
+                }
+            } else {
+                mainHandler.post { callback(null, error ?: "Sign up failed") }
+            }
+        }
+    }
+
+    fun getAllUsers(callback: UsersCallback) {
+        firebaseModel.getAllUsers { users ->
+            if (users.isNotEmpty()) {
+                roomExecutor.execute {
+                    database.userDao().insertUsers(*users.toTypedArray())
+                }
+                mainHandler.post {
+                    callback(users)
+                }
+            } else {
+                roomExecutor.execute {
+                    val localUsers = database.userDao().getAllUsers()
+                    mainHandler.post {
+                        callback(localUsers)
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun signOut() {
+        firebaseModel.signOut()
+    }
+
+    private fun uploadImageToFirebase(image: Bitmap, username: String, callback: (String?) -> Unit) {
+        firebaseModel.uploadImage(image, username, callback)
+    }
+
+    private fun uploadImageToCloudinary(image: Bitmap, username: String, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+        cloudinaryModel.uploadBitmap(
+            bitmap = image,
+            onSuccess = onSuccess,
+            onError = onError
+        )
+    }
 }
