@@ -172,7 +172,7 @@ class FirebaseModel {
         val userData = hashMapOf(
             "id" to user.uid,
             "image" to image,
-            "name" to username,
+            "user" to username,
         )
 
         // Save the data in the "users" collection with the document id as the user's uid.
@@ -217,9 +217,9 @@ class FirebaseModel {
             }
     }
 
-    fun uploadImage(image: Bitmap, name: String, callback: (String?) -> Unit) {
+    fun uploadImage(image: Bitmap, username: String, callback: (String?) -> Unit) {
         val storageRef = storage.reference
-        val imageProfileRef = storageRef.child("images/$name.jpg")
+        val imageProfileRef = storageRef.child("images/$username.jpg")
         val baos = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
