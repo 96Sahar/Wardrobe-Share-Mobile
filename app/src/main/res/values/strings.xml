@@ -34,5 +34,12 @@
     <string name="enter_your_username">Enter your username</string>
     <string name="header_logo">Header logo</string>
     <string name="app_name">Wardrobe Share</string>
+    <string name="find_something_new_to_wear">Find something to wear</string>
+    <string name="fashion_bot">Fashion Bot</string>
+    <string name="location">Location:</string>
+    <string name="contact">Contact:</string>
+    <string name="product_image">product image</string>
+    <string name="selected_image">Selected Image</string>
+    <string name="take_a_picture">Take a picture</string>
 
 </resources>

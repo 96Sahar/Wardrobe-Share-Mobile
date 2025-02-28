@@ -1,145 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#E8E4D0"
-    android:padding="24dp">
+    android:fillViewport="true"
+    android:background="#E8E4D0">
 
-    <!-- Logo -->
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:src="@drawable/wardrobe_share_png_logo"
-        android:layout_gravity="center_horizontal" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/black"/>
-
-    <!-- Register Text -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up"
-        android:textSize="30sp"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"/>
-
-    <!-- Username -->
-    <TextView
+    <!-- Single child container for the ScrollView -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/username"
-        android:textColor="@color/black"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"/>
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/usernameInput"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/enter_your_username"
-        android:paddingStart="16dp"
-        android:textColor="@color/black"
-        android:paddingEnd="16dp"
-        android:inputType="textPersonName"
-        android:textColorHint="#80000000"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
-    <!-- Email -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:textColor="@color/black"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"/>
+        <LinearLayout
+            android:id="@+id/registerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
-    <EditText
-        android:id="@+id/emailInput"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/enter_your_email_address"
-        android:paddingStart="16dp"
-        android:textColor="@color/black"
-        android:paddingEnd="16dp"
-        android:inputType="textEmailAddress"
-        android:textColorHint="#80000000"/>
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/header_logo"
+                android:src="@drawable/wardrobe_share_png_logo"
+                android:layout_gravity="center_horizontal" />
 
-    <!-- Password -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/password"
-        android:textColor="@color/black"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black"/>
 
-    <EditText
-        android:id="@+id/passwordInput"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/enter_your_password"
-        android:paddingStart="16dp"
-        android:textColor="@color/black"
-        android:paddingEnd="16dp"
-        android:inputType="textPassword"
-        android:textColorHint="#80000000"/>
+            <!-- Register Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"/>
 
-    <!-- Confirm Password -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/confirm_password"
-        android:textColor="@color/black"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"/>
+            <!-- Username -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"/>
 
-    <EditText
-        android:id="@+id/confirmPasswordInput"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/enter_your_password"
-        android:paddingStart="16dp"
-        android:textColor="@color/black"
-        android:paddingEnd="16dp"
-        android:inputType="textPassword"
-        android:textColorHint="#80000000"/>
+            <EditText
+                android:id="@+id/usernameInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/enter_your_username"
+                android:paddingStart="16dp"
+                android:textColor="@color/black"
+                android:paddingEnd="16dp"
+                android:inputType="textPersonName"
+                android:textColorHint="#80000000"/>
 
-    <!-- Add Photo Button -->
-    <Button
-        android:id="@+id/addPhotoButton"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/text_choose_profile_pic"
-        android:textColor="@color/black"
-        android:background="@drawable/button_background"
-        android:layout_marginTop="24dp"/>
+            <!-- Email -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
 
-    <!-- Sign Up Button -->
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/sign_up"
-        android:textColor="@color/black"
-        android:background="@drawable/button_background"
-        android:layout_marginTop="16dp"/>
+            <EditText
+                android:id="@+id/emailInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/enter_your_email_address"
+                android:paddingStart="16dp"
+                android:textColor="@color/black"
+                android:paddingEnd="16dp"
+                android:inputType="textEmailAddress"
+                android:textColorHint="#80000000"/>
 
-    <!-- Login Link -->
-    <TextView
-        android:id="@+id/loginLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/already_account"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
+            <!-- Password -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/passwordInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/enter_your_password"
+                android:paddingStart="16dp"
+                android:textColor="@color/black"
+                android:paddingEnd="16dp"
+                android:inputType="textPassword"
+                android:textColorHint="#80000000"/>
+
+            <!-- Confirm Password -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_password"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/confirmPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/enter_your_password"
+                android:paddingStart="16dp"
+                android:textColor="@color/black"
+                android:paddingEnd="16dp"
+                android:inputType="textPassword"
+                android:textColorHint="#80000000"/>
+
+            <!-- Add Photo Button -->
+            <Button
+                android:id="@+id/addPhotoButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/text_choose_profile_pic"
+                android:textColor="@color/black"
+                android:background="@drawable/button_background"
+                android:layout_marginTop="24dp"/>
+
+            <!-- Take Photo Button -->
+            <Button
+                android:id="@+id/takePhotoButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/take_a_picture"
+                android:textColor="@color/white"
+                android:background="@color/black"
+                android:layout_marginTop="16dp"/>
+
+            <!-- ImageView to display the selected or captured image, initially hidden -->
+            <ImageView
+                android:id="@+id/selectedImageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:contentDescription="@string/selected_image"
+                android:background="@drawable/input_background" />
+
+
+            <!-- Sign Up Button -->
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/sign_up"
+                android:textColor="@color/black"
+                android:background="@drawable/button_background"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Login Link -->
+            <TextView
+                android:id="@+id/loginLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/already_account"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

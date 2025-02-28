@@ -1,5 +1,4 @@
 package com.example.wardrobe_share.model.dao
-
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -7,8 +6,7 @@ import com.example.wardrobe_share.base.MyApplication
 import com.example.wardrobe_share.model.Post
 import com.example.wardrobe_share.model.User
 
-
-@Database(entities = [Post::class, User::class], version = 2)
+@Database(entities = [Post::class, User::class], version = 1, exportSchema = false)
 abstract class AppLocalDbRepository: RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun userDao(): UserDao
@@ -23,7 +21,7 @@ object AppLocalDb {
         Room.databaseBuilder(
             context = context,
             klass = AppLocalDbRepository::class.java,
-            name = "wardrobe_share.db"
+            name = "wardrobe.db"
         )
             .fallbackToDestructiveMigration()
             .build()

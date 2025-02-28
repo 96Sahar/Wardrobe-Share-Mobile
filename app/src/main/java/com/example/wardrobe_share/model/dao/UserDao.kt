@@ -9,13 +9,16 @@ import com.example.wardrobe_share.model.User
 
 @Dao
 interface UserDao {
-    @Query("SELECT * FROM user")
-    fun getAll(): List<User>
-    @Query("SELECT * FROM user WHERE id = :id")
-    fun getUserById(id: String): User
+
+    @Query("SELECT * FROM User")
+    fun getAllUsers(): List<User>
+
+    @Query("SELECT * FROM User WHERE id =:id")
+    fun getUserById(id: String): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser( vararg users: User)
+    fun insertUsers(vararg users: User)
+
     @Delete
-    fun delete(user: User)
+    fun deleteUser(user: User)
 }
