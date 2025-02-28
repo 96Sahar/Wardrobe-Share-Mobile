@@ -53,6 +53,7 @@ class RegisterFragment : Fragment() {
         binding?.addPhotoButton?.setOnClickListener {
             // Launch gallery picker for images
             pickImageLauncher.launch("image/*")
+            binding?.selectedImageView?.visibility = View.VISIBLE
         }
 
         cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
@@ -61,6 +62,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding?.takePhotoButton?.setOnClickListener {
+            binding?.selectedImageView?.visibility = View.VISIBLE
             cameraLauncher?.launch(null)
         }
 
