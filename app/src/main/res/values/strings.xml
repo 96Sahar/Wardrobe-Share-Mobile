@@ -40,5 +40,6 @@
     <string name="contact">Contact:</string>
     <string name="product_image">product image</string>
     <string name="selected_image">Selected Image</string>
+    <string name="take_a_picture">Take a picture</string>
 
 </resources>

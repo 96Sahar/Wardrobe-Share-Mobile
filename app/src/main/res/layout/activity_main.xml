@@ -27,6 +27,7 @@
     <Button
         android:id="@+id/logout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:text="@string/login"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,6 +31,7 @@
             <ImageView
                 android:layout_width="250dp"
                 android:layout_height="100dp"
+                android:contentDescription="@string/header_logo"
                 android:src="@drawable/wardrobe_share_png_logo"
                 android:layout_gravity="center_horizontal" />
 
@@ -148,7 +149,7 @@
                 android:id="@+id/takePhotoButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="Take a picture"
+                android:text="@string/take_a_picture"
                 android:textColor="@color/white"
                 android:background="@color/black"
                 android:layout_marginTop="16dp"/>
