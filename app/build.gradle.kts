@@ -23,6 +23,7 @@ val cloudinaryApiSecret: String = localProperties.getProperty("cloudinary_api_se
 android {
     buildFeatures {
         buildConfig = true
+        dataBinding = true
     }
     namespace = "com.example.wardrobe_share"
     compileSdk = 35

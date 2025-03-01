@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -28,15 +24,45 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        // auth check
-        observeUserAuthentication()
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button?>(R.id.logout)
-        button?.setOnClickListener {
-            authViewModel.signOut()
+        // Initialize Toolbar
+        toolbar = findViewById(R.id.main_toolbar)
+        setSupportActionBar(toolbar)
+
+        // Initialize Navigation
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host) as? NavHostFragment
+        navController = navHostFragment?.navController
+
+        if (navController == null) {
+            Log.e("MainActivity", "NavController is null. Check FragmentContainerView setup.")
+            return
         }
+
+        NavigationUI.setupActionBarWithNavController(this, navController!!)
+
+        // Initialize BottomNavigationView
+        bottomNavigationView = findViewById(R.id.bottom_bar)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController!!)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> {
+                    if (navController?.currentDestination?.id != R.id.homeFragment) {
+                        navController?.popBackStack(R.id.homeFragment, false)
+                    } else {
+                        navController?.popBackStack()
+                    }
+                    true
+                }
+                else -> {
+                    NavigationUI.onNavDestinationSelected(item, navController!!)
+                }
+            }
+        }
+
+        // Observe user authentication status
+        observeUserAuthentication()
     }
 
     private fun observeUserAuthentication() {
@@ -44,11 +70,15 @@ class MainActivity : AppCompatActivity() {
         authViewModel.user.observe(this, Observer { firebaseUser ->
             Log.d("TAG", "User: $firebaseUser")
             if (firebaseUser == null) {
-                // User is not authenticated. Navigate to the Auth (login) screen.
+                // Navigate to the Auth (login) screen if not authenticated
                 startActivity(Intent(this, AuthActivity::class.java))
                 finish() // Close MainActivity to prevent access without login
             }
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 }
