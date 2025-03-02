@@ -54,7 +54,11 @@ class CloudinaryModel {
 
                 override fun onSuccess(requestId: String, resultData: Map<*, *>) {
                     val publicUrl = resultData["secure_url"] as? String ?: ""
-                    onSuccess(publicUrl) // Return the URL of the uploaded image
+                    if (publicUrl.isNotEmpty()) {
+                        onSuccess(publicUrl) // Return the URL of the uploaded image
+                    } else {
+                        onError("Failed to get secure URL from Cloudinary response")
+                    }
                 }
 
                 override fun onError(requestId: String?, error: ErrorInfo?) {
@@ -62,7 +66,7 @@ class CloudinaryModel {
                 }
 
                 override fun onReschedule(requestId: String?, error: ErrorInfo?) {
-                    TODO("Not yet implemented")
+                    onError(error?.description ?: "Upload rescheduled")
                 }
 
             })
@@ -77,3 +81,4 @@ class CloudinaryModel {
         return file
     }
 }
+
