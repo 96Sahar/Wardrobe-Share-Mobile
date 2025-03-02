@@ -104,7 +104,6 @@ class FirebaseModel {
     fun getAllUserPosts(id: String, callback: PostsCallback) {
         database.collection(Constants.COLLECTIONS.POSTS)
             .whereEqualTo("author", id)
-            .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {
