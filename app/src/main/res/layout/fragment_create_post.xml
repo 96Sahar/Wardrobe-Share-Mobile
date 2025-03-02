@@ -40,10 +40,10 @@
                 android:id="@+id/takePictureButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_background"
                 android:text="Open camera"
-                app:icon="@drawable/cocktails"
-                style="@style/Widget.Material3.Button.Icon" />
+                android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/openImagesButton"
@@ -51,8 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="Select from photos"
-                app:icon="@drawable/cocktails"
-                style="@style/Widget.Material3.Button.Icon" />
+                android:textSize="16sp"
+               android:background="@drawable/button_background" />
         </LinearLayout>
 
             <ImageView
@@ -74,10 +74,11 @@
                 android:id="@+id/descriptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:textColorHint="@color/gray"
                 app:boxStrokeColor="@color/input_stroke_color"
-                app:hintTextColor="@color/white">
+                app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -86,7 +87,7 @@
                     android:id="@+id/descriptionInput"
                     android:inputType="textMultiLine"
                     android:minLines="3"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -96,16 +97,16 @@
                 android:layout_marginBottom="16dp"
                 android:textColorHint="@color/gray"
                 app:boxStrokeColor="@color/input_stroke_color"
-                app:hintTextColor="@color/white">
+                app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/location"
+                    android:hint="Location"
                     android:id="@+id/locationInput"
                     android:inputType="textMultiLine"
                     android:minLines="3"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +116,7 @@
                 android:layout_marginBottom="16dp"
                 android:textColorHint="@color/gray"
                 app:boxStrokeColor="@color/input_stroke_color"
-                app:hintTextColor="@color/white">
+                app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -124,7 +125,7 @@
                     android:id="@+id/phoneNumberInput"
                     android:inputType="textMultiLine"
                     android:minLines="3"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -133,7 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Publish" />
+                android:text="Post item"
+                android:background="@drawable/button_background"/>
 
         </LinearLayout>
 

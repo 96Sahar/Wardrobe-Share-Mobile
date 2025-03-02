@@ -3,5 +3,5 @@
     <!-- Active state -->
     <item android:state_checked="true" android:color="@color/white" />
     <!-- Inactive state -->
-    <item android:color="@color/purple" />
+    <item android:color="@color/white" />
 </selector>
