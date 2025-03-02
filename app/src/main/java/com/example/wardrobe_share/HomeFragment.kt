@@ -102,16 +102,25 @@ class HomeFragment : Fragment() {
                     activity?.runOnUiThread {
                         Log.d("TAG", "Fetched user: $userObj")
                         binding?.userNameTextView?.text = userObj.username ?: "Unknown"
-                        if (userObj.image != "") {
-                            if (binding?.profileImage != null) {
-                                Glide.with(this).load(userObj.image).into(binding?.profileImage ?: return@runOnUiThread)
-                            }
+
+                        // Set the profile image
+                        if (!userObj.image.isNullOrEmpty()) {
+                            // Load the user's profile image using Glide
+                            Glide.with(this)
+                                .load(userObj.image)
+                                .placeholder(R.drawable.wardrobe_share_png_logo) // Default image while loading
+                                .error(R.drawable.wardrobe_share_png_logo) // Default image if loading fails
+                                .into(binding?.profileImage ?: return@runOnUiThread)
+                        } else {
+                            // If the user doesn't have an image, set the default image
+                            binding?.profileImage?.setImageResource(R.drawable.user)
                         }
+
                         userLoaded = true
                         checkIfAllRequestsFinished()
                     }
                 } else {
-                    Log.d("TAG", "failed to fetch user")
+                    Log.d("TAG", "Failed to fetch user")
                     userLoaded = true
                     checkIfAllRequestsFinished()
                 }
@@ -126,6 +135,7 @@ class HomeFragment : Fragment() {
     private fun getAllPosts() {
         Model.shared.getAllPosts { posts ->
             activity?.runOnUiThread {
+                Log.d("HomeFragment", "Fetched posts: ${posts.size} items")
                 viewModel.set(posts = posts)
                 adapter.set(posts)
                 adapter.notifyDataSetChanged()

@@ -13,7 +13,7 @@ data class User(
     companion object {
 
         private const val ID_KEY = "id"
-        private const val USERNAME_KEY = "username"
+        private const val USERNAME_KEY = "user"  // Note: This matches the field name in Firestore
         private const val IMAGE_KEY = "image"
 
         fun fromJSON(json: Map<String, Any>): User {
@@ -36,3 +36,4 @@ data class User(
             IMAGE_KEY to image,
         )
 }
+
