@@ -55,9 +55,9 @@ class PostViewHolder(
     fun bind(post: Post?, position: Int) {
         this.post = post
         authorName.text = post?.authorName
-        postDescription.text = post?.description
-        location.text = post?.location
-        phoneNumber.text = post?.phoneNumber
+        postDescription.text = "Description: " +post?.description
+        location.text =  "Location: " +post?.location
+        phoneNumber.text =  "Phone Number: " +post?.phoneNumber
 
 
         // Load images using Glide

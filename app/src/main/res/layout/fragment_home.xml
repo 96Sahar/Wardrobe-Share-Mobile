@@ -29,7 +29,7 @@
             android:id="@+id/profileImage"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/cocktails" />
+            android:src="@drawable/wardrobe_share_png_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,8 +40,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mix it up,"
-                android:textColor="@color/white"
+                android:text="@string/find_something_new_to_wear"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -49,8 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/userNameTextView"
-                android:text="Bartender Bot"
-                android:textColor="@color/gray"
+                android:text="Username"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

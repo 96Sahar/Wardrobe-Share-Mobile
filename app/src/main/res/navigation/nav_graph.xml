@@ -5,9 +5,9 @@
     app:startDestination="@id/homeFragment"
     android:id="@+id/nav_graph">
     <fragment
-        android:id="@+id/createCocktailFragment"
+        android:id="@+id/createPostFragment"
         android:name="com.example.wardrobe_share.CreatePostFragment"
-        android:label="Create Cocktail" >
+        android:label="Create Post" >
         <action
             android:id="@+id/action_createCocktailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
