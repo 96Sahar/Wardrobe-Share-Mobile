@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
     private fun observeUserAuthentication() {
         // Observe the authentication state
         authViewModel.user.observe(this, Observer { firebaseUser ->
-            Log.d("TAG", "User: $firebaseUser")
             if (firebaseUser == null) {
                 // Navigate to the Auth (login) screen if not authenticated
                 startActivity(Intent(this, AuthActivity::class.java))
@@ -77,8 +76,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onSupportNavigateUp(): Boolean {
+        return navController?.navigateUp() ?: false
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
 }

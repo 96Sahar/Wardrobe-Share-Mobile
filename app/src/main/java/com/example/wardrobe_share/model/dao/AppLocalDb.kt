@@ -6,7 +6,7 @@ import com.example.wardrobe_share.base.MyApplication
 import com.example.wardrobe_share.model.Post
 import com.example.wardrobe_share.model.User
 
-@Database(entities = [Post::class, User::class], version = 2, exportSchema = false)
+@Database(entities = [Post::class, User::class], version = 3, exportSchema = false)
 abstract class AppLocalDbRepository: RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun userDao(): UserDao

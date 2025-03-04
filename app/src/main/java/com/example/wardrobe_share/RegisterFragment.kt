@@ -26,13 +26,12 @@ class RegisterFragment : Fragment() {
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
-            Log.d("SignUpFragment", "Image selected: $uri")
             // Set the selected image into the ImageView
             binding?.selectedImageView?.setImageURI(uri)
             didSetProfileImage = true
             // Optionally, store the URI to use it later for uploading
         } else {
-            Log.d("SignUpFragment", "No image selected")
+            Log.e("SignUpFragment", "No image selected")
         }
     }
 
@@ -105,10 +104,9 @@ class RegisterFragment : Fragment() {
                     binding?.selectedImageView?.isDrawingCacheEnabled = true
                     binding?.selectedImageView?.buildDrawingCache()
                     val bitmap = (binding?.selectedImageView?.drawable as BitmapDrawable).bitmap
-                    Log.d("TAG", "Bitmap: $bitmap")
                     authViewModel.signUp(email, password1, username, bitmap)
                 } else {
-                    Log.d("TAG", "No image selected")
+                    Log.e("TAG", "No image selected")
                     authViewModel.signUp(email, password1, username, null)
                 }
             } else {

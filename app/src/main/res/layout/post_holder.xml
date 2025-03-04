@@ -45,15 +45,35 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/authorName"
+                        android:id="@+id/sellerName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:text="Author Name" />
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
+
+                <!-- Edit and Delete Buttons -->
+                <ImageButton
+                    android:id="@+id/editButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_edit"
+                    android:visibility="gone"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit_post"
+                    android:padding="12dp" />
+
+                <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_delete"
+                    android:visibility="gone"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/delete_post"
+                    android:padding="12dp" />
             </LinearLayout>
 
             <!-- Product Image -->
@@ -79,6 +99,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+
+                    android:text="@string/description"
                     android:textColor="@color/white"
                     android:layout_marginTop="4dp" />
 

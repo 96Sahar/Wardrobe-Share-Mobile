@@ -38,8 +38,12 @@ class FirebaseModel {
                 when (it.isSuccessful) {
                     true -> {
                         val posts: MutableList<Post> = mutableListOf()
+
                         for (json in it.result) {
                             posts.add(Post.fromJSON(json.data))
+                            Log.d("getAllPostsFromFireBaseModel", "posts: ${json.data}")
+                            Log.d("getAllPosts", "FirebaseModel posts fetched: ${json.data}")
+
                         }
                         callback(posts)
                     }
@@ -66,7 +70,6 @@ class FirebaseModel {
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-
                         for (document in task.result) {
                             val post = Post.fromJSON(document.data)
                             postsMap[post.id] = post
@@ -190,33 +193,41 @@ class FirebaseModel {
     fun getUser(id: String, callback: (User?) -> Unit) {
         database.collection(Constants.COLLECTIONS.USERS).document(id).get()
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
+                Log.d("getUserFireBaseFunc", "Task completed: ${task.result.data?.values}")
+
+                if (task.isSuccessful && task.result != null && task.result.exists()) {
                     val document = task.result
-                    if (document.exists()) {
-                        // Map the document data to a User object
-                        val userData = document.data
-                        if (userData != null) {
-                            val user = User(
-                                id = id,
-                                username = userData["user"] as? String ?: "Unknown User",
-                                image = userData["image"] as? String ?: ""
-                            )
-                            Log.d("FirebaseModel", "User fetched: id=$id, username=${user.username}, image=${user.image}")
-                            callback(user)
-                        } else {
-                            Log.e("FirebaseModel", "User document exists but has no data: id=$id")
-                            callback(null)
-                        }
+                    val data = document.data
+
+                    Log.d("getUserFireBaseFuncData", "Document data: $data")
+
+                    if (data != null) {
+                        val userId = data["id"] as? String ?: id
+                        val userName = data["name"] as? String ?: ""
+                        val userImage = data["image"] as? String ?: ""
+
+                        Log.d("getUserFireBaseFunc", "User ID: $userId, User Name: $userName, User Image: $userImage")
+
+                        val user = User(
+                            id = userId,
+                            username = userName,
+                            image = userImage
+                        )
+
+                        Log.d("getUserFireBaseFunc", "User created manually: $user")
+                        callback(user)
                     } else {
-                        Log.e("FirebaseModel", "User document does not exist: id=$id")
+                        Log.d("getUserFireBaseFunc", "Document exists but data is null")
                         callback(null)
                     }
                 } else {
-                    Log.e("FirebaseModel", "Error fetching user: id=$id", task.exception)
+                    Log.d("getUserFireBaseFunc", "Task failed or document doesn't exist")
                     callback(null)
                 }
             }
     }
+
+
 
     fun getAllUsers(callback: UsersCallback) {
         database.collection(Constants.COLLECTIONS.USERS)
@@ -244,23 +255,11 @@ class FirebaseModel {
 
         val uploadTask = imageProfileRef.putBytes(data)
         uploadTask
-            .addOnFailureListener {
-                Log.e("FirebaseModel", "Image upload failed", it)
-                callback(null)
-            }
+            .addOnFailureListener { callback(null) }
             .addOnSuccessListener { taskSnapshot ->
-                // Get the download URL
-                imageProfileRef.downloadUrl
-                    .addOnSuccessListener { uri ->
-                        val imageUrl = uri.toString()
-                        Log.d("FirebaseModel", "Image upload successful, URL: $imageUrl")
-                        callback(imageUrl)
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.e("FirebaseModel", "Failed to get download URL", exception)
-                        callback(null)
-                    }
+                imageProfileRef.downloadUrl.addOnSuccessListener { uri ->
+                    callback(uri.toString())
+                }
             }
     }
 }
-
