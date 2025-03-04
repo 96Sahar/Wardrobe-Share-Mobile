@@ -56,7 +56,6 @@ class LoginFragment : Fragment() {
                 binding?.SignUpHere?.isEnabled = true
                 binding?.loginButton?.isEnabled = true
                 if (firebaseUser != null) {
-                    Log.d("TAG", "USER2: $firebaseUser")
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()

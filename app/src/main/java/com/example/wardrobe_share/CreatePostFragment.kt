@@ -32,13 +32,12 @@ class CreatePostFragment : Fragment() {
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
-            Log.d("SignUpFragment", "Image selected: $uri")
             // Set the selected image into the ImageView
             binding?.imageView?.setImageURI(uri)
             didSetProfileImage = true
             // Optionally, store the URI to use it later for uploading
         } else {
-            Log.d("SignUpFragment", "No image selected")
+            Log.e("SignUpFragment", "No image selected")
         }
     }
 
@@ -97,13 +96,13 @@ class CreatePostFragment : Fragment() {
             Model.shared.addPost(post, bitmap) {
                 binding?.progressBar?.visibility = View.GONE
                 binding?.form?.visibility = View.VISIBLE
-                Navigation.findNavController(view).navigate(R.id.action_createCocktailFragment_to_homeFragment)
+                Navigation.findNavController(view).navigate(R.id.action_createPostFragment_to_homeFragment)
             }
         } else {
             Model.shared.addPost(post, null) {
                 binding?.progressBar?.visibility = View.GONE
                 binding?.form?.visibility = View.VISIBLE
-                Navigation.findNavController(view).navigate(R.id.action_createCocktailFragment_to_homeFragment)
+                Navigation.findNavController(view).navigate(R.id.action_createPostFragment_to_homeFragment)
             }
         }
     }

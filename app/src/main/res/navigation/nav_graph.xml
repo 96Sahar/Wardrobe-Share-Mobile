@@ -9,7 +9,7 @@
         android:name="com.example.wardrobe_share.CreatePostFragment"
         android:label="Create Post" >
         <action
-            android:id="@+id/action_createCocktailFragment_to_homeFragment"
+            android:id="@+id/action_createPostFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
@@ -17,6 +17,19 @@
         android:name="com.example.wardrobe_share.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" >
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.wardrobe_share.ProfileFragment"
+        android:label="Profile">
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.wardrobe_share.EditProfileFragment"
+        android:label="Profile">
     </fragment>
 
 </navigation>

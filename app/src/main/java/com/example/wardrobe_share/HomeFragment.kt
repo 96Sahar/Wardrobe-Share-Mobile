@@ -51,12 +51,10 @@ class HomeFragment : Fragment() {
         adapter = PostListAdapter(emptyList())
         adapter.listener = object : OnPostClickListener {
             override fun onItemClick(post: Post?) {
-                Log.d("TAG", "On click listener on post: ${post?.id}")
             }
         }
         adapter.authorListener = object : onUserClickListener {
             override fun onItemClick(id: String?) {
-                Log.d("TAG", "On click listener on author: ${id}")
                 findNavController().navigate(R.id.profileFragment, Bundle().apply {
                     putString("userId", id)
                 })
@@ -96,37 +94,26 @@ class HomeFragment : Fragment() {
     private fun getUserDetails() {
         val user = authViewModel.user.value
         if (user != null) {
-            Log.d("TAG", "User is signed in: ${user.uid}")
             Model.shared.getUser(user.uid) { userObj: User? ->
                 if (userObj != null) {
                     activity?.runOnUiThread {
-                        Log.d("TAG", "Fetched user: $userObj")
                         binding?.userNameTextView?.text = userObj.username ?: "Unknown"
-
-                        // Set the profile image
-                        if (!userObj.image.isNullOrEmpty()) {
-                            // Load the user's profile image using Glide
-                            Glide.with(this)
-                                .load(userObj.image)
-                                .placeholder(R.drawable.wardrobe_share_png_logo) // Default image while loading
-                                .error(R.drawable.wardrobe_share_png_logo) // Default image if loading fails
-                                .into(binding?.profileImage ?: return@runOnUiThread)
-                        } else {
-                            // If the user doesn't have an image, set the default image
-                            binding?.profileImage?.setImageResource(R.drawable.user)
+                        if (userObj.image != "") {
+                            if (binding?.profileImage != null) {
+                                Glide.with(this).load(userObj.image).into(binding?.profileImage ?: return@runOnUiThread)
+                            }
                         }
-
                         userLoaded = true
                         checkIfAllRequestsFinished()
                     }
                 } else {
-                    Log.d("TAG", "Failed to fetch user")
+                    Log.e("TAG", "failed to fetch user")
                     userLoaded = true
                     checkIfAllRequestsFinished()
                 }
             }
         } else {
-            Log.d("TAG", "User is not signed in")
+            Log.e("TAG", "User is not signed in")
             userLoaded = true
             checkIfAllRequestsFinished()
         }
@@ -134,8 +121,8 @@ class HomeFragment : Fragment() {
 
     private fun getAllPosts() {
         Model.shared.getAllPosts { posts ->
+            Log.d("getAllPostsHomeFragment", "HomeFragment posts fetched: $posts")
             activity?.runOnUiThread {
-                Log.d("HomeFragment", "Fetched posts: ${posts.size} items")
                 viewModel.set(posts = posts)
                 adapter.set(posts)
                 adapter.notifyDataSetChanged()
