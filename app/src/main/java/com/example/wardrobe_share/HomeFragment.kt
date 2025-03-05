@@ -48,7 +48,8 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
         // Initialize adapter with an empty list
-        adapter = PostListAdapter(emptyList())
+        val currentUserId = authViewModel.user.value?.uid
+        adapter = PostListAdapter(emptyList(), currentUserId)
         adapter.listener = object : OnPostClickListener {
             override fun onItemClick(post: Post?) {
             }

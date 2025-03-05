@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseUser
 import android.os.Handler  // Use Android's Handler, not java.util.logging.Handler
 import com.example.wardrobe_share.model.FirebaseModel
 import com.example.wardrobe_share.base.UsersCallback
+import com.google.firebase.appcheck.internal.StorageHelper
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.concurrent.Executors
 
 class Model private constructor() {
@@ -81,57 +83,6 @@ class Model private constructor() {
         }
     }
 
-    fun getLastFourPosts(callback: PostsCallback) {
-        firebaseModel.getLastFourPosts { posts ->
-            if (posts.isNotEmpty()) {
-                // Count posts that have a non-empty author field.
-                val postsToFetch = posts.count { it.author.isNotEmpty() }
-                if (postsToFetch == 0) {
-                    // No posts require author data – cache them locally and callback.
-                    roomExecutor.execute {
-                        database.postDao().insertPosts(*posts.toTypedArray())
-                    }
-                    mainHandler.post {
-                        callback(posts)
-                    }
-                } else {
-                    // Create a mutable copy to update posts with user info.
-                    val updatedPosts = posts.toMutableList()
-                    // Use an atomic counter to track pending user fetches.
-                    val counter = java.util.concurrent.atomic.AtomicInteger(postsToFetch)
-                    for ((index, post) in updatedPosts.withIndex()) {
-                        if (post.author.isNotEmpty()) {
-                            getUser(post.author) { user ->
-                                updatedPosts[index] = post.copy(
-                                    authorName = user?.username ?: "",
-                                    authorImage = user?.image ?: ""
-                                )
-                                // When all user fetches are complete, update local DB and trigger the callback.
-                                if (counter.decrementAndGet() == 0) {
-                                    roomExecutor.execute {
-                                        database.postDao().insertPosts(*updatedPosts.toTypedArray())
-                                    }
-                                    mainHandler.post {
-                                        callback(updatedPosts)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                roomExecutor.execute {
-                    // It is assumed that your local DB provides a method to retrieve the last four posts.
-                    // If not, you might fetch all posts and then filter/sort to get the last four.
-                    val localPosts = database.postDao().getLastFourPosts()
-                    mainHandler.post {
-                        callback(localPosts)
-                    }
-                }
-            }
-        }
-    }
-
     fun addPost(post: Post, profileImage: Bitmap?, callback: EmptyCallback) {
         // Attempt to add the post to Firebase first.
         firebaseModel.addPost(post) { firebaseSuccess ->
@@ -165,6 +116,17 @@ class Model private constructor() {
                     }
                 )
             } else {
+                mainHandler.post { callback() }
+            }
+        }
+    }
+
+    fun deletePost(id: String, callback: EmptyCallback) {
+        // Delete post from Firebase
+        firebaseModel.deletePost(id) {
+            // After deleting from Firebase, delete from local database
+            roomExecutor.execute {
+                database.postDao().deletePostById(id)
                 mainHandler.post { callback() }
             }
         }
@@ -298,6 +260,19 @@ class Model private constructor() {
     fun signOut() {
         firebaseModel.signOut()
     }
+
+    fun updateUserProfile(userId: String, newUsername: String?, imageUrl: String?, callback: (Boolean) -> Unit) {
+        val updates = mutableMapOf<String, Any>()
+        if (!newUsername.isNullOrEmpty()) updates["name"] = newUsername
+        if (!imageUrl.isNullOrEmpty()) updates["image"] = imageUrl
+
+        FirebaseFirestore.getInstance().collection("users")
+            .document(userId)
+            .update(updates)
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
+
 
     private fun uploadImageToFirebase(image: Bitmap, username: String, callback: (String?) -> Unit) {
         firebaseModel.uploadImage(image, username, callback)

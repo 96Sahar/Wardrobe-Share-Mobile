@@ -52,58 +52,6 @@ class FirebaseModel {
             }
     }
 
-    fun searchPosts(query: String, callback: PostsCallback) {
-        // Prepare the query range for prefix search.
-        val endQuery = query + "\uf8ff"
-        // Use a mutable map to avoid duplicate posts (keyed by post id).
-        val postsMap = mutableMapOf<String, Post>()
-        // List the fields to search.
-        val fields = listOf("name", "description", "instructions", "ingredients")
-        // Use an atomic counter to know when all queries are complete.
-        val counter = java.util.concurrent.atomic.AtomicInteger(fields.size)
-
-        for (field in fields) {
-            database.collection(Constants.COLLECTIONS.POSTS)
-                .whereGreaterThanOrEqualTo(field, query)
-                .whereLessThanOrEqualTo(field, endQuery)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (document in task.result) {
-                            val post = Post.fromJSON(document.data)
-                            postsMap[post.id] = post
-                        }
-                    } else {
-                        Log.e("FirebaseModel", "Error searching field '$field'", task.exception)
-                    }
-                    // When all field queries have completed, return the aggregated results.
-                    if (counter.decrementAndGet() == 0) {
-                        callback(postsMap.values.toList())
-                    }
-                }
-        }
-    }
-
-
-    fun getLastFourPosts(callback: PostsCallback) {
-        database.collection(Constants.COLLECTIONS.POSTS)
-            .orderBy("createdAt", Query.Direction.DESCENDING)
-            .limit(4)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val posts: MutableList<Post> = mutableListOf()
-                    for (document in task.result) {
-                        posts.add(Post.fromJSON(document.data))
-                    }
-                    callback(posts)
-                } else {
-                    Log.e("FirebaseModel", "Error fetching last four posts", task.exception)
-                    callback(listOf())
-                }
-            }
-    }
 
     fun getAllUserPosts(id: String, callback: PostsCallback) {
         database.collection(Constants.COLLECTIONS.POSTS)

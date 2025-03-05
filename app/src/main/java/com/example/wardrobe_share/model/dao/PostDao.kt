@@ -19,12 +19,12 @@ interface PostDao {
     @Query("SELECT * FROM Post WHERE author =:author")
     fun getPostsByAuthor(author: String): List<Post>
 
-    @Query("SELECT * FROM Post LIMIT 4")
-    fun getLastFourPosts(): List<Post>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPosts(vararg posts: Post)
 
     @Delete
     fun deletePost(post: Post)
+
+    @Query("DELETE FROM Post WHERE id = :postId")
+    fun deletePostById(postId: String)
 }
