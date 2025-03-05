@@ -19,6 +19,7 @@ val localProperties = Properties().apply {
 val cloudinaryCloudName: String = localProperties.getProperty("cloud_name") ?: ""
 val cloudinaryApiKey: String = localProperties.getProperty("cloudinary_api_key") ?: ""
 val cloudinaryApiSecret: String = localProperties.getProperty("cloudinary_api_secret") ?: ""
+val apiSecretGemini: String = localProperties.getProperty("api_secret_gemini") ?: ""
 
 android {
     buildFeatures {
@@ -39,6 +40,7 @@ android {
         buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudinaryCloudName\"")
         buildConfigField("String", "CLOUDINARY_API_KEY", "\"$cloudinaryApiKey\"")
         buildConfigField("String", "CLOUDINARY_API_SECRET", "\"$cloudinaryApiSecret\"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"$apiSecretGemini\"")
     }
 
     buildTypes {
