@@ -103,4 +103,26 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // RecyclerView (for the chat messages list)
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+
+// ConstraintLayout (already included via `libs.androidx.constraintlayout`, so no need to add it again)
+
+// ViewModel & LiveData (for managing chat state, already included if `androidx.lifecycle` is present)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
+// Retrofit and Gson (you already have these)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+// OkHttp (for network requests, already included)
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+// Kotlin Coroutines (for async API calls, you already have them)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
 }

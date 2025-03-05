@@ -31,5 +31,10 @@
         android:name="com.example.wardrobe_share.EditProfileFragment"
         android:label="Profile">
     </fragment>
+    <fragment
+        android:id="@+id/chatBotFragment"
+        android:name="com.example.wardrobe_share.ChatFragment"
+        android:label="ChatBot">
+    </fragment>
 
 </navigation>

@@ -10,6 +10,10 @@
         android:icon="@drawable/ic_add"
         android:title="@string/add" />
     <item
+        android:id="@+id/chatBotFragment"
+        android:icon="@drawable/bot"
+        android:title="ChatBot" />
+    <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_person"
         android:title="@string/profile" />
