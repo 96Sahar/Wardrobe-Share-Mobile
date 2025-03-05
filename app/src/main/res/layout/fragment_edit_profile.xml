@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Image View to Display Selected Photo -->
+    <ImageView
+
+        android:id="@+id/imageProfile"
+        android:layout_width="151dp"
+        android:layout_height="151dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:background="@android:color/darker_gray"
+        android:src="@drawable/ic_person" />
+
+    <!-- Take Photo Button -->
+    <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Pick Photo from Gallery Button -->
+    <Button
+        android:id="@+id/btnPickPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick from Gallery"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Username Input -->
+    <EditText
+        android:id="@+id/editUsername"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:hint="Enter Username"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="textPersonName"/>
+
+    <!-- Edit Profile Button -->
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

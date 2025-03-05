@@ -7,42 +7,22 @@ import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
 import com.cloudinary.android.policy.GlobalUploadPolicy
 import com.cloudinary.android.policy.UploadPolicy
-import com.example.wardrobe_share.BuildConfig
 import com.example.wardrobe_share.base.MyApplication
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Error
 import kotlin.io.path.CopyActionContext
 
 class CloudinaryModel {
 
-    init {
-        // load from local.properties
-
-        val config = mapOf(
-            "cloud_name" to BuildConfig.CLOUDINARY_CLOUD_NAME,
-            "api_key" to BuildConfig.CLOUDINARY_API_KEY,
-            "api_secret" to BuildConfig.CLOUDINARY_API_SECRET
-        )
-
-        MyApplication.Globals.context?.let {
-            MediaManager.init(it, config)
-            MediaManager.get().globalUploadPolicy = GlobalUploadPolicy.Builder()
-                .maxConcurrentRequests(3)
-                .networkPolicy(UploadPolicy.NetworkType.UNMETERED)
-                .build()
-        }
-    }
+    // No need to initialize MediaManager here anymore
+    // Keep the file upload logic
 
     fun uploadBitmap(bitmap: Bitmap, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
         val context = MyApplication.Globals.context ?: return
         val file = bitmapToFile(bitmap, context)
 
         MediaManager.get().upload(file.path)
-            .option(
-                "folder",
-                "images"
-            ) // Optional: Specify a folder in your Cloudinary account
+            .option("folder", "images") // Optional: Specify a folder in your Cloudinary account
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String) {
                     // Called when upload starts
@@ -64,7 +44,6 @@ class CloudinaryModel {
                 override fun onReschedule(requestId: String?, error: ErrorInfo?) {
                     TODO("Not yet implemented")
                 }
-
             })
             .dispatch()
     }
