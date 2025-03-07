@@ -13,7 +13,7 @@ data class User(
     companion object {
 
         private const val ID_KEY = "id"
-        private const val USERNAME_KEY = "user"
+        private const val USERNAME_KEY = "username"
         private const val IMAGE_KEY = "image"
 
         fun fromJSON(json: Map<String, Any>): User {

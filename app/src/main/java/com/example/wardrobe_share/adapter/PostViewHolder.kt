@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.wardrobe_share.EditPostFragment
 import com.example.wardrobe_share.R
 import com.example.wardrobe_share.model.Model
 import com.example.wardrobe_share.model.Post
@@ -47,9 +48,9 @@ class PostViewHolder(
 
         // Bind post data to views
         sellerName.text = post.authorName
-        itemDescription.text = post.description
-        location.text = post.location
-        contact.text = post.phoneNumber
+        itemDescription.text = "Description: " + post.description
+        location.text = "Location: " + post.location
+        contact.text = "Phone number: " + post.phoneNumber
 
         // Load seller photo using Glide
         if (post.authorImage.isNotEmpty()) {
@@ -79,12 +80,17 @@ class PostViewHolder(
             val bundle = Bundle().apply {
                 putParcelable("post", post) // Pass the post to EditPostFragment
             }
-            itemView.findNavController().navigate(R.id.action_homeFragment_to_editPostFragment, bundle)
+            itemView.findNavController().navigate(R.id.editPostFragment, bundle)
         }
 
         // Set click listener for the delete button
         deleteButton.setOnClickListener {
-            listener?.onItemClick(post) // Trigger the OnPostClickListener
+            post?.id?.let { postId ->
+                Model.shared.deletePost(postId) {
+                    Log.d("PostViewHolder", "Post with id $postId deleted.")
+                    adapter.removePost(postId)  // Notify the adapter to remove the post
+                }
+            }
         }
 
         // Set click listener for the seller photo to navigate to the author's profile

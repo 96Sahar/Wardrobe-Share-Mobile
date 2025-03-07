@@ -51,14 +51,13 @@ class ProfileFragment : Fragment() {
                 if (userObj != null) {
                     binding?.userName?.text = "Hey ${userObj.username}"
 
-                    // Check if the user has an image, otherwise load the default image
                     val imageUrl = if (userObj.image.isNullOrEmpty()) {
-                        R.drawable.user // Replace with your default image resource
+                        R.drawable.user  // Default image if the user has no image
                     } else {
-                        userObj.image
+                        userObj.image  // User's image URL
                     }
 
-                    // Safely load the image into the ImageView
+                    // Make sure binding?.profileImage is correct
                     binding?.profileImage?.let { imageView ->
                         Glide.with(this).load(imageUrl).into(imageView)
                     }

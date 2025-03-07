@@ -98,6 +98,7 @@ class HomeFragment : Fragment() {
             Model.shared.getUser(user.uid) { userObj: User? ->
                 if (userObj != null) {
                     activity?.runOnUiThread {
+                        Log.d("Here", userObj.toString())
                         binding?.userNameTextView?.text = userObj.username ?: "Unknown"
                         if (userObj.image != "") {
                             if (binding?.profileImage != null) {

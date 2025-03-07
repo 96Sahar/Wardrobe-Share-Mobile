@@ -274,7 +274,7 @@ class Model private constructor() {
 
     fun updateUserProfile(userId: String, newUsername: String?, imageUrl: String?, callback: (Boolean) -> Unit) {
         val updates = mutableMapOf<String, Any>()
-        if (!newUsername.isNullOrEmpty()) updates["name"] = newUsername
+        if (!newUsername.isNullOrEmpty()) updates["username"] = newUsername
         if (!imageUrl.isNullOrEmpty()) updates["image"] = imageUrl
 
         FirebaseFirestore.getInstance().collection("users")

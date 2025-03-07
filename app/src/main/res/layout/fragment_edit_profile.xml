@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Take Photo"
+        android:backgroundTint="@color/black"
         android:layout_marginTop="16dp"/>
 
     <!-- Pick Photo from Gallery Button -->
@@ -31,6 +32,7 @@
         android:id="@+id/btnPickPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
         android:text="Pick from Gallery"
         android:layout_marginTop="8dp"/>
 
@@ -51,5 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit Profile"
+        android:backgroundTint="#104944"
         android:layout_marginTop="16dp"/>
 </LinearLayout>
