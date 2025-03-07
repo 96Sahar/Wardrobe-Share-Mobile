@@ -28,8 +28,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImage"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/user" />
 
         <LinearLayout
@@ -52,7 +52,7 @@
                 android:id="@+id/userNameTextView"
                 android:text="Username"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 

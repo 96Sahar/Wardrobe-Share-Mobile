@@ -101,6 +101,7 @@ class FirebaseModel {
                     val user = auth.currentUser
                     callback(user, null)
                 } else {
+                    Log.d("Here", "Here")
                     callback(null, task.exception?.message)
                 }
             }
@@ -130,7 +131,7 @@ class FirebaseModel {
         val userData = hashMapOf(
             "id" to user.uid,
             "image" to image,
-            "user" to username,
+            "username" to username,
         )
 
         // Save the data in the "users" collection with the document id as the user's uid.
@@ -159,7 +160,7 @@ class FirebaseModel {
 
                     if (data != null) {
                         val userId = data["id"] as? String ?: id
-                        val userName = data["name"] as? String ?: ""
+                        val userName = data["username"] as? String ?: ""
                         val userImage = data["image"] as? String ?: ""
 
                         Log.d("getUserFireBaseFunc", "User ID: $userId, User Name: $userName, User Image: $userImage")
