@@ -1,10 +1,12 @@
 package com.example.wardrobe_share.adapter
 
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wardrobe_share.R
@@ -25,70 +27,69 @@ interface onUserClickListener {
 
 class PostViewHolder(
     itemView: View,
-    listener: OnPostClickListener?,
-    authorListener: onUserClickListener?,
+    private val listener: OnPostClickListener?,
+    private val authorListener: onUserClickListener?,
     private val currentUserId: String?,
-    private val adapter: PostListAdapter  // Add the adapter as a parameter
+    private val adapter: PostListAdapter
 ) : RecyclerView.ViewHolder(itemView) {
 
-    private var post: Post? = null
-    private val authorImage: CircleImageView = itemView.findViewById(R.id.sellerPhoto)
-    private val authorName: TextView = itemView.findViewById(R.id.sellerName)
-    private val postImage: ImageView = itemView.findViewById(R.id.productImage)
-    private val postDescription: TextView = itemView.findViewById(R.id.itemDescription)
+    private val sellerPhoto: ImageView = itemView.findViewById(R.id.sellerPhoto)
+    private val sellerName: TextView = itemView.findViewById(R.id.sellerName)
+    private val productImage: ImageView = itemView.findViewById(R.id.productImage)
+    private val itemDescription: TextView = itemView.findViewById(R.id.itemDescription)
     private val location: TextView = itemView.findViewById(R.id.location)
-    private val phoneNumber: TextView = itemView.findViewById(R.id.contact)
+    private val contact: TextView = itemView.findViewById(R.id.contact)
     private val editButton: ImageButton = itemView.findViewById(R.id.editButton)
     private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 
-    init {
-        postImage.setOnClickListener {
-            listener?.onItemClick(post)
-        }
-
-        authorName.setOnClickListener {
-            authorListener?.onItemClick(post?.author)
-        }
-
-        authorImage.setOnClickListener {
-            authorListener?.onItemClick(post?.author)
-        }
-
-        deleteButton.setOnClickListener {
-            post?.id?.let { postId ->
-                Model.shared.deletePost(postId) {
-                    Log.d("PostViewHolder", "Post with id $postId deleted.")
-                    adapter.removePost(postId)  // Notify the adapter to remove the post
-                }
-            }
-        }
-    }
-
     fun bind(post: Post?, position: Int) {
-        this.post = post
-        authorName.text = post?.authorName
-        postDescription.text = "Description: " + post?.description
-        location.text = "Location: " + post?.location
-        phoneNumber.text = "Phone Number: " + post?.phoneNumber
+        if (post == null) return
 
-        // Load images using Glide
-        Glide.with(itemView.context)
-            .load(post?.authorImage)
-            .placeholder(R.drawable.user)
-            .into(authorImage)
+        // Bind post data to views
+        sellerName.text = post.authorName
+        itemDescription.text = post.description
+        location.text = post.location
+        contact.text = post.phoneNumber
 
-        Glide.with(itemView.context)
-            .load(post?.image)
-            .placeholder(R.drawable.wardrobe_share_png_logo)
-            .into(postImage)
+        // Load seller photo using Glide
+        if (post.authorImage.isNotEmpty()) {
+            Glide.with(itemView.context)
+                .load(post.authorImage)
+                .into(sellerPhoto)
+        }
 
-        // Check if the current user is the author of the post
-        if (post?.author == currentUserId) {
+        // Load product image using Glide
+        if (post.image.isNotEmpty()) {
+            Glide.with(itemView.context)
+                .load(post.image)
+                .into(productImage)
+        }
+
+        // Show edit and delete buttons only if the current user is the author of the post
+        if (post.author == currentUserId) {
             editButton.visibility = View.VISIBLE
             deleteButton.visibility = View.VISIBLE
         } else {
             editButton.visibility = View.GONE
             deleteButton.visibility = View.GONE
+        }
+
+        // Set click listener for the edit button
+        editButton.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable("post", post) // Pass the post to EditPostFragment
+            }
+            itemView.findNavController().navigate(R.id.action_homeFragment_to_editPostFragment, bundle)
+        }
+
+        // Set click listener for the delete button
+        deleteButton.setOnClickListener {
+            listener?.onItemClick(post) // Trigger the OnPostClickListener
+        }
+
+        // Set click listener for the seller photo to navigate to the author's profile
+        sellerPhoto.setOnClickListener {
+            authorListener?.onItemClick(post.author)
         }
     }
 }

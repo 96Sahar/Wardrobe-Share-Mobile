@@ -71,6 +71,14 @@ class FirebaseModel {
             }
     }
 
+    fun updatePost(post: Post, callback: SuccessCallback) {
+        database.collection(Constants.COLLECTIONS.POSTS).document(post.id)
+            .set(post.json)
+            .addOnCompleteListener {
+                callback(it.isSuccessful)
+            }
+    }
+
     fun addPost(post: Post, callback: SuccessCallback) {
         database.collection(Constants.COLLECTIONS.POSTS).document(post.id)
             .set(post.json)

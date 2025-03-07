@@ -83,6 +83,17 @@ class Model private constructor() {
         }
     }
 
+    fun updatePost(post: Post, callback: EmptyCallback) {
+        firebaseModel.updatePost(post) { success ->
+            if (success) {
+                roomExecutor.execute {
+                    database.postDao().insertPosts(post) // Update the local DB
+                }
+            }
+            mainHandler.post { callback() }
+        }
+    }
+
     fun addPost(post: Post, profileImage: Bitmap?, callback: EmptyCallback) {
         // Attempt to add the post to Firebase first.
         firebaseModel.addPost(post) { firebaseSuccess ->

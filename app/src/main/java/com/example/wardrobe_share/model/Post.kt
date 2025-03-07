@@ -1,5 +1,7 @@
 package com.example.wardrobe_share.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
@@ -11,10 +13,22 @@ data class Post(
     val description: String = "",
     val phoneNumber: String = "",
     val location: String = "",
-    val author: String = "",      // The user ID of the author
-    val authorName: String = "",  // Will be updated after fetching the user details
-    val authorImage: String = "",  // Will be updated after fetching the user details
-) {
+    val author: String = "",
+    val authorName: String = "",
+    val authorImage: String = ""
+) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+
     companion object {
         private const val ID_KEY = "id"
         private const val IMAGE_KEY = "image"
@@ -39,6 +53,17 @@ data class Post(
                 description = description, phoneNumber = phoneNumber,
                 location = location)
         }
+
+        @JvmField
+        val CREATOR = object : Parcelable.Creator<Post> {
+            override fun createFromParcel(parcel: Parcel): Post {
+                return Post(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Post?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 
     val json: Map<String, Any>
@@ -51,4 +76,20 @@ data class Post(
             PHONENUMBER_KEY to phoneNumber,
             LOCATION_KEY to location
         )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(image)
+        parcel.writeString(description)
+        parcel.writeString(phoneNumber)
+        parcel.writeString(location)
+        parcel.writeString(author)
+        parcel.writeString(authorName)
+        parcel.writeString(authorImage)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
 }
+
