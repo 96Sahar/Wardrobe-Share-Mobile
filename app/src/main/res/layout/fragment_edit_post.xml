@@ -94,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColorHint="@color/gray"
+                android:background="#E8E4D0"
                 app:boxStrokeColor="@color/input_stroke_color"
                 app:hintTextColor="@color/black">
 

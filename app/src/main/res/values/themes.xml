@@ -7,6 +7,7 @@
     <style name="Theme.WardrobeShare" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Other theme attributes -->
 
+
     </style>
     <style name="Theme.Wardrobe_Share" parent="Base.Theme.Wardrobe_Share" />
 </resources>
