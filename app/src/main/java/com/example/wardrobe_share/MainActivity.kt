@@ -3,8 +3,6 @@ package com.example.wardrobe_share
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -26,11 +24,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Toolbar
         toolbar = findViewById(R.id.main_toolbar)
         setSupportActionBar(toolbar)
 
-        // Initialize Navigation
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host) as? NavHostFragment
         navController = navHostFragment?.navController
 
@@ -41,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupActionBarWithNavController(this, navController!!)
 
-        // Initialize BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavigationView, navController!!)
 
@@ -61,17 +56,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Observe user authentication status
         observeUserAuthentication()
     }
 
     private fun observeUserAuthentication() {
-        // Observe the authentication state
         authViewModel.user.observe(this, Observer { firebaseUser ->
             if (firebaseUser == null) {
-                // Navigate to the Auth (login) screen if not authenticated
                 startActivity(Intent(this, AuthActivity::class.java))
-                finish() // Close MainActivity to prevent access without login
+                finish()
             }
         })
     }
@@ -79,9 +71,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController?.navigateUp() ?: false
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
 }

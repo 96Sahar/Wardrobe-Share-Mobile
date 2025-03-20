@@ -23,15 +23,12 @@ import com.example.wardrobe_share.viewModel.PostViewModel
 
 class HomeFragment : Fragment() {
 
-    // Use a backing property for binding
     private var binding: FragmentHomeBinding? = null
 
     private lateinit var viewModel: PostViewModel
     private lateinit var adapter: PostListAdapter
-    // Use AuthViewModel only to obtain the user id.
     private val authViewModel: AuthViewModel by activityViewModels()
 
-    // Flags to track when each request finishes
     private var postsLoaded = false
     private var userLoaded = false
 
@@ -42,12 +39,10 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[PostViewModel::class.java]
 
-        // Setup RecyclerView for posts.
         binding?.homeRecyclerView?.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
         }
-        // Initialize adapter with an empty list
         val currentUserId = authViewModel.user.value?.uid
         adapter = PostListAdapter(emptyList(), currentUserId)
         adapter.listener = object : OnPostClickListener {
@@ -73,7 +68,6 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Reset flags and show the progress bar
         postsLoaded = false
         userLoaded = false
         binding?.progressBar?.visibility = View.VISIBLE

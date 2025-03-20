@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +31,6 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[PostViewModel::class.java]
 
-        // Get the current user's ID
         val currentUserId = authViewModel.user.value?.uid
 
         postsAdapter = PostListAdapter(emptyList(), currentUserId)
@@ -42,22 +40,19 @@ class ProfileFragment : Fragment() {
             adapter = postsAdapter
         }
 
-        // Show the "No posts yet" message by default
         binding?.noPostsTextView?.visibility = View.VISIBLE
 
         if (currentUserId != null) {
-            // Load user details
             Model.shared.getUser(currentUserId) { userObj ->
                 if (userObj != null) {
                     binding?.userName?.text = "Hey ${userObj.username}"
 
                     val imageUrl = if (userObj.image.isNullOrEmpty()) {
-                        R.drawable.user  // Default image if the user has no image
+                        R.drawable.user
                     } else {
-                        userObj.image  // User's image URL
+                        userObj.image
                     }
 
-                    // Make sure binding?.profileImage is correct
                     binding?.profileImage?.let { imageView ->
                         Glide.with(this).load(imageUrl).into(imageView)
                     }
@@ -66,17 +61,15 @@ class ProfileFragment : Fragment() {
                 }
             }
             Model.shared.getAllUserPosts(currentUserId) { posts ->
-                Log.d("ProfileFragment", "Fetched posts: $posts") // Debug log to verify the posts are fetched
+                Log.d("ProfileFragment", "Fetched posts: $posts")
 
-                // If there are no posts, show the "No posts yet" message
                 if (posts.isNullOrEmpty()) {
                     binding?.noPostsTextView?.visibility = View.VISIBLE
-                    postsAdapter.set(emptyList()) // Ensure the adapter has an empty list
+                    postsAdapter.set(emptyList())
                 } else {
-                    // Hide the "No posts yet" message and show the posts
                     binding?.noPostsTextView?.visibility = View.GONE
-                    postsAdapter.set(posts)  // Set the posts in the adapter
-                    postsAdapter.notifyDataSetChanged()  // Ensure the RecyclerView gets updated
+                    postsAdapter.set(posts)
+                    postsAdapter.notifyDataSetChanged()
                 }
             }
         } else {

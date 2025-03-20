@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#104944"
                 android:text="Open camera"
                 android:textSize="16sp" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="Select from photos"
                 android:textSize="16sp"
-               android:backgroundTint="@color/black" />
+               android:backgroundTint="#104944" />
         </LinearLayout>
 
             <ImageView

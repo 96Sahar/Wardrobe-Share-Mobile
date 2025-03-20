@@ -9,11 +9,9 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.wardrobe_share.EditPostFragment
 import com.example.wardrobe_share.R
 import com.example.wardrobe_share.model.Model
 import com.example.wardrobe_share.model.Post
-import de.hdodenhof.circleimageview.CircleImageView
 
 
 
@@ -46,27 +44,23 @@ class PostViewHolder(
     fun bind(post: Post?, position: Int) {
         if (post == null) return
 
-        // Bind post data to views
         sellerName.text = post.authorName
         itemDescription.text = "Description: " + post.description
         location.text = "Location: " + post.location
         contact.text = "Phone number: " + post.phoneNumber
 
-        // Load seller photo using Glide
         if (post.authorImage.isNotEmpty()) {
             Glide.with(itemView.context)
                 .load(post.authorImage)
                 .into(sellerPhoto)
         }
 
-        // Load product image using Glide
         if (post.image.isNotEmpty()) {
             Glide.with(itemView.context)
                 .load(post.image)
                 .into(productImage)
         }
 
-        // Show edit and delete buttons only if the current user is the author of the post
         if (post.author == currentUserId) {
             editButton.visibility = View.VISIBLE
             deleteButton.visibility = View.VISIBLE
@@ -75,30 +69,35 @@ class PostViewHolder(
             deleteButton.visibility = View.GONE
         }
 
-        // Set click listener for the edit button
         editButton.setOnClickListener {
             val bundle = Bundle().apply {
-                putParcelable("post", post) // Pass the post to EditPostFragment
+                putParcelable("post", post)
             }
             itemView.findNavController().navigate(R.id.editPostFragment, bundle)
         }
 
-        // Set click listener for the delete button
         deleteButton.setOnClickListener {
-            post?.id?.let { postId ->
+            post.id?.let { postId ->
                 Model.shared.deletePost(postId) {
                     Log.d("PostViewHolder", "Post with id $postId deleted.")
-                    adapter.removePost(postId)  // Notify the adapter to remove the post
+                    adapter.removePost(postId)
                 }
             }
         }
 
-        // Set click listener for the seller photo to navigate to the author's profile
         sellerPhoto.setOnClickListener {
             authorListener?.onItemClick(post.author)
         }
+
+        itemView.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable("post", post)
+            }
+            itemView.findNavController().navigate(R.id.postFragment, bundle)
+        }
     }
 }
+
 
 
 

@@ -5,7 +5,7 @@ data class GeminiRequest(
 )
 
 data class Content(
-    val role: String, // <-- Add role field: "user" or "model"
+    val role: String,
     val parts: List<Part>
 )
 

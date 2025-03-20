@@ -4,7 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.firebase.Timestamp
 
 @Entity
 data class Post(
@@ -46,8 +45,6 @@ data class Post(
             val description = json[DESCRIPTION_KEY] as? String ?: ""
             val phoneNumber = json[PHONENUMBER_KEY] as? String ?: ""
             val location = json[LOCATION_KEY] as? String ?: ""
-            // When deserializing from JSON, authorName and authorImage will be empty;
-            // they will be updated later once you fetch the user details.
             return Post(id = id, image = image, author = author,
                 authorName = authorName,
                 description = description, phoneNumber = phoneNumber,

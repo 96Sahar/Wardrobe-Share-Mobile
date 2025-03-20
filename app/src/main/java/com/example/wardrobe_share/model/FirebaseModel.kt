@@ -14,7 +14,6 @@ import com.example.wardrobe_share.base.SuccessCallback
 import com.example.wardrobe_share.base.UsersCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.Query
 import java.io.ByteArrayOutputStream
 
 class FirebaseModel {
@@ -123,18 +122,13 @@ class FirebaseModel {
         auth.signOut()
     }
 
-    // --------------------
-    // User Data Functions
-    // --------------------
     fun saveUser(user: FirebaseUser, username: String, image: String?, callback: (Boolean, String?) -> Unit) {
-        // Define the user data you want to store.
         val userData = hashMapOf(
             "id" to user.uid,
             "image" to image,
             "username" to username,
         )
 
-        // Save the data in the "users" collection with the document id as the user's uid.
         database.collection(Constants.COLLECTIONS.USERS)
             .document(user.uid)
             .set(userData)

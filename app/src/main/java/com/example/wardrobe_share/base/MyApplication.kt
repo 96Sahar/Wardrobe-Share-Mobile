@@ -9,14 +9,13 @@ class MyApplication : Application() {
 
     object Globals {
         var context: Context? = null
-        var isCloudinaryInitialized = false // Flag to track if MediaManager is initialized
+        var isCloudinaryInitialized = false
     }
 
     override fun onCreate() {
         super.onCreate()
         Globals.context = applicationContext
 
-        // Initialize MediaManager only once when the application starts
         if (!Globals.isCloudinaryInitialized) {
             val config = mapOf(
                 "cloud_name" to BuildConfig.CLOUDINARY_CLOUD_NAME,
