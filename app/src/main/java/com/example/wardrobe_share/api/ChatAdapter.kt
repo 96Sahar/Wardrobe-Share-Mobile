@@ -23,7 +23,6 @@ class ChatAdapter(private val messages: List<ChatMessage>) : RecyclerView.Adapte
 
         val view = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
 
-        // Determine the TextView based on the viewType
         val textMessage = if (viewType == USER_MESSAGE) {
             view.findViewById<TextView>(R.id.textUserMessage)
         } else {
@@ -46,7 +45,6 @@ class ChatAdapter(private val messages: List<ChatMessage>) : RecyclerView.Adapte
         return messages.size
     }
 
-    // ViewHolder class to bind the message data to the views
     class ChatViewHolder(itemView: View, private val textMessage: TextView) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(message: ChatMessage) {

@@ -26,10 +26,8 @@ class RegisterFragment : Fragment() {
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
-            // Set the selected image into the ImageView
             binding?.selectedImageView?.setImageURI(uri)
             didSetProfileImage = true
-            // Optionally, store the URI to use it later for uploading
         } else {
             Log.e("SignUpFragment", "No image selected")
         }
@@ -50,7 +48,6 @@ class RegisterFragment : Fragment() {
         binding?.signUpButton?.setOnClickListener(::onRegisterButtonClick)
 
         binding?.addPhotoButton?.setOnClickListener {
-            // Launch gallery picker for images
             pickImageLauncher.launch("image/*")
             binding?.selectedImageView?.visibility = View.VISIBLE
         }
@@ -110,14 +107,12 @@ class RegisterFragment : Fragment() {
                     authViewModel.signUp(email, password1, username, null)
                 }
             } else {
-                // Passwords don't match, display an error message
                 Toast.makeText(
                     requireContext(), "Passwords don't match.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         } else {
-            // Fields are empty, display an error message
             Toast.makeText(
                 requireContext(), "All fields are required.",
                 Toast.LENGTH_SHORT

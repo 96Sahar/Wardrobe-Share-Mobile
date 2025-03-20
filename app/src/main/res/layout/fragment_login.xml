@@ -6,7 +6,6 @@
     android:background="#E8E4D0"
     android:padding="24dp">
 
-    <!-- Logo -->
     <ImageView
         android:layout_width="250dp"
         android:layout_height="100dp"
@@ -18,7 +17,6 @@
         android:layout_height="2dp"
         android:background="@color/black"/>
 
-    <!-- Welcome Text -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +26,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"/>
 
-    <!-- Email Input -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +46,6 @@
         android:inputType="textEmailAddress"
         android:textColorHint="#80000000"/>
 
-    <!-- Password Input -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +66,6 @@
         android:inputType="textPassword"
         android:textColorHint="#80000000"/>
 
-    <!-- Login Button -->
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
@@ -80,7 +75,6 @@
         android:backgroundTint="#104944"
         android:layout_marginTop="32dp"/>
 
-    <!-- Progress Bar (Initially hidden) -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -89,7 +83,6 @@
         android:layout_marginTop="16dp"
         android:visibility="gone" />
 
-    <!-- Sign Up Text -->
     <TextView
         android:id="@+id/SignUpHere"
         android:layout_width="wrap_content"

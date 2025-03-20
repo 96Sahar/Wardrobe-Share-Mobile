@@ -6,7 +6,6 @@
     android:background="#E8E4D0"
     android:layout_height="match_parent">
 
-    <!-- Profile Section -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -56,7 +55,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- RecyclerView for posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeRecyclerView"
         android:layout_width="match_parent"

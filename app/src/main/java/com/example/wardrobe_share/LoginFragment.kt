@@ -2,7 +2,6 @@ package com.example.wardrobe_share
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,6 @@ class LoginFragment : Fragment() {
 
         authViewModel.user.observe(viewLifecycleOwner, Observer { firebaseUser ->
             firebaseUser?.let {
-                // User signed in successfully, start MainActivity
                 binding?.progressBar?.visibility = View.GONE
                 binding?.SignUpHere?.isEnabled = true
                 binding?.loginButton?.isEnabled = true
@@ -63,7 +61,6 @@ class LoginFragment : Fragment() {
             }
         })
 
-        // Observe error messages
         authViewModel.error.observe(viewLifecycleOwner, Observer { errorMsg ->
             binding?.progressBar?.visibility = View.GONE
             binding?.SignUpHere?.isEnabled = true

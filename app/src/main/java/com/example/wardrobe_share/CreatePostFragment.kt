@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.example.wardrobe_share.databinding.FragmentCreatePostBinding
 import com.example.wardrobe_share.model.Model
 import com.example.wardrobe_share.model.Post
@@ -32,10 +30,8 @@ class CreatePostFragment : Fragment() {
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
-            // Set the selected image into the ImageView
             binding?.imageView?.setImageURI(uri)
             didSetProfileImage = true
-            // Optionally, store the URI to use it later for uploading
         } else {
             Log.e("SignUpFragment", "No image selected")
         }
@@ -51,7 +47,6 @@ class CreatePostFragment : Fragment() {
         binding?.publishButton?.setOnClickListener(::onSaveClicked)
 
         binding?.openImagesButton?.setOnClickListener {
-            // Launch gallery picker for images
             pickImageLauncher.launch("image/*")
         }
 
@@ -64,7 +59,6 @@ class CreatePostFragment : Fragment() {
             cameraLauncher?.launch(null)
         }
 
-        // Inflate the layout for this fragment
         return binding?.root
     }
 

@@ -13,14 +13,19 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.wardrobe_share.PostFragment"
+        android:label="Post Details">
+    </fragment>
+    <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.wardrobe_share.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="Home" >
     </fragment>
     <fragment
         android:id="@+id/editPostFragment"
         android:name="com.example.wardrobe_share.EditPostFragment"
-        android:label="EditPostFragment" />
+        android:label="Edit Post" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.wardrobe_share.ProfileFragment"

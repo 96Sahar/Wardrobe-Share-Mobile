@@ -7,7 +7,6 @@
     android:background="#E8E4D0"
     android:padding="16dp">
 
-    <!-- Image View to Display Selected Photo -->
     <ImageView
 
         android:id="@+id/imageProfile"
@@ -18,7 +17,6 @@
         android:background="@android:color/darker_gray"
         android:src="@drawable/ic_person" />
 
-    <!-- Take Photo Button -->
     <Button
         android:id="@+id/btnTakePhoto"
         android:layout_width="match_parent"
@@ -27,7 +25,6 @@
         android:backgroundTint="@color/black"
         android:layout_marginTop="16dp"/>
 
-    <!-- Pick Photo from Gallery Button -->
     <Button
         android:id="@+id/btnPickPhoto"
         android:layout_width="match_parent"
@@ -36,7 +33,6 @@
         android:text="Pick from Gallery"
         android:layout_marginTop="8dp"/>
 
-    <!-- Username Input -->
     <EditText
         android:id="@+id/editUsername"
         android:layout_width="match_parent"
@@ -47,7 +43,6 @@
         android:background="@android:drawable/editbox_background"
         android:inputType="textPersonName"/>
 
-    <!-- Edit Profile Button -->
     <Button
         android:id="@+id/btnEditProfile"
         android:layout_width="match_parent"

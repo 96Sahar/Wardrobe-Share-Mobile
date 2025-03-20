@@ -14,18 +14,15 @@ class AuthViewModel : ViewModel() {
 
     private val model = Model.shared
 
-    // LiveData holding the current FirebaseUser.
     private val _user = MutableLiveData<FirebaseUser?>().apply {
         value = FirebaseAuth.getInstance().currentUser
     }
     val user: LiveData<FirebaseUser?> = _user
 
-    // LiveData for error messages.
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
 
-    // Sign in with email and password.
     fun signIn(email: String, password: String) {
         model.signIn(email, password) { firebaseUser, errorMessage ->
             if (firebaseUser != null) {
@@ -38,12 +35,10 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    // Sign up with email, password, and name.
     fun signUp(email: String, password: String, username: String, bitmap: Bitmap?) {
         model.signUp(email, password, username, bitmap) { firebaseUser, errorMessage ->
             if (firebaseUser != null) {
                 Log.d("AuthViewModel", "Sign up successful for user: ${firebaseUser.uid}")
-                // Update the FirebaseUser profile with the provided display name.
                 val profileUpdates = UserProfileChangeRequest.Builder()
                     .setDisplayName(username)
                     .build()
@@ -64,7 +59,6 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    // Sign out the current user.
     fun signOut() {
         model.signOut()
         Log.d("AuthViewModel", "User signed out.")

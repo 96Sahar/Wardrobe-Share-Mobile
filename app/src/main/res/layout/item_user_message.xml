@@ -7,7 +7,6 @@
     android:background="#E8E4D0"
     android:padding="8dp">
 
-    <!-- User message -->
     <TextView
         android:id="@+id/textUserMessage"
         android:layout_width="0dp"
@@ -21,7 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <!-- 70% guideline (to control the width) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline70"
         android:layout_width="wrap_content"
